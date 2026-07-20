@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#FAFAF7">
+<meta name="description" content="減脂一直卡關？少吃多動都試過了還是沒用？5 分鐘免費 AI 問卷，幫你找出身體真正卡住的原因。適合忙碌上班族、外食族。">
+<title>可樂吉健康研究所｜減脂卡關？先找出原因</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ====== CSS RESET & BASE ====== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body {
+  font-family:'Noto Sans TC', sans-serif;
+  color:#2C2C2C;
+  background:#FAFAF7;
+  line-height:1.8;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  -webkit-font-smoothing:antialiased;
+}
+img { max-width:100%; height:auto; display:block; }
+a { text-decoration:none; color:inherit; }
+
+/* ====== COLOR TOKENS ====== */
+:root {
+  --bg-main:#FAFAF7;
+  --bg-alt:#F0EDE6;
+  --bg-dark:#2D3B2D;
+  --bg-dark-deep:#1A2E1A;
+  --text-main:#2C2C2C;
+  --text-light:#f4f0e8;
+  --title-color:#1A2E1A;
+  --accent-a:#E8763A;
+  --accent-b:#3A7D5C;
+  --tip-bg:#FFF8F0;
+  --tip-text:#5C3D1E;
+  --line-green:#06C755;
+  --fb-blue:#1877F2;
+  --card-border:#E0DCD4;
+}
+
+/* ====== TYPOGRAPHY ====== */
+h1, h2, h3 { font-family:'Noto Serif TC', serif; color:var(--title-color); }
+h1 { font-size:clamp(34px,9vw,48px); line-height:1.3; font-weight:900; }
+h2 { font-size:clamp(24px,6.5vw,32px); line-height:1.35; font-weight:700; }
+h3 { font-size:clamp(20px,5.5vw,26px); line-height:1.4; font-weight:700; }
+p, li { font-size:clamp(17px,4.5vw,19px); line-height:1.8; }
+.small-note { font-size:clamp(13px,3.5vw,15px); color:#888; line-height:1.6; }
+
+/* ====== LAYOUT ====== */
+.container { max-width:520px; margin:0 auto; padding:0 20px; }
+.section { padding:56px 0; }
+.section-alt { background:var(--bg-alt); }
+.section-dark { background:var(--bg-dark); color:var(--text-light); }
+.section-dark h2, .section-dark h3 { color:var(--text-light); }
+.section-dark-deep { background:var(--bg-dark-deep); color:var(--text-light); }
+.section-dark-deep h2 { color:var(--text-light); }
+
+/* ====== SCROLL REVEAL ====== */
+.reveal {
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.vis {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ====== HERO ====== */
+.hero {
+  padding:72px 0 56px;
+  text-align:center;
+  background:linear-gradient(180deg, var(--bg-dark-deep) 0%, var(--bg-dark) 100%);
+  color:var(--text-light);
+  position:relative;
+  overflow:hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute;
+  top:-40%; left:-20%;
+  width:140%; height:140%;
+  background:radial-gradient(ellipse at 30% 20%, rgba(232,118,58,0.08) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero h1 { color:var(--text-light); margin-bottom:24px; position:relative; }
+.hero-sub {
+  font-size:clamp(17px,4.5vw,19px);
+  line-height:1.85;
+  opacity:0.88;
+  max-width:460px;
+  margin:0 auto;
+  position:relative;
+}
+.hero-badge {
+  display:inline-block;
+  background:var(--accent-a);
+  color:#fff;
+  font-size:clamp(13px,3.5vw,15px);
+  font-weight:700;
+  padding:6px 18px;
+  border-radius:20px;
+  margin-bottom:20px;
+  position:relative;
+}
+
+/* ====== PAIN POINTS ====== */
+.pain-item {
+  background:#fff;
+  border-left:3px solid var(--accent-a);
+  border-radius:0 8px 8px 0;
+  padding:18px 20px;
+  margin-bottom:14px;
+  font-size:clamp(17px,4.5vw,19px);
+  line-height:1.75;
+}
+
+/* ====== TEST VALUE ====== */
+.test-point {
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:16px;
+}
+.test-point-num {
+  width:44px; height:44px; min-width:44px;
+  background:var(--bg-dark);
+  color:var(--accent-a);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700;
+  font-size:18px;
+  font-family:'Noto Serif TC', serif;
+}
+.test-point p { flex:1; min-width:0; padding-top:8px; }
+
+.tip-box {
+  background:var(--tip-bg);
+  border-left:3px solid var(--accent-a);
+  border-radius:0 8px 8px 0;
+  padding:20px;
+  margin-top:28px;
+  color:var(--tip-text);
+  font-size:clamp(15px,4vw,17px);
+}
+
+/* ====== CTA BUTTONS ====== */
+.cta-row {
+  display:flex;
+  gap:12px;
+  margin-top:28px;
+}
+.cta-btn {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:80px;
+  border-radius:12px;
+  color:#fff;
+  padding:14px 10px;
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+  min-width:0;
+}
+.cta-btn:active { transform:scale(0.97); }
+.cta-btn-line { background:var(--line-green); }
+.cta-btn-fb { background:var(--fb-blue); }
+.cta-btn .cta-main {
+  font-size:clamp(17px,4.5vw,19px);
+  font-weight:700;
+  line-height:1.3;
+}
+.cta-btn .cta-desc {
+  font-size:clamp(13px,3.5vw,15px);
+  opacity:0.92;
+  margin-top:3px;
+  line-height:1.4;
+  text-align:center;
+}
+.cta-btn .cta-keyword {
+  font-size:clamp(12px,3.2vw,14px);
+  opacity:0.78;
+  margin-top:3px;
+  line-height:1.3;
+}
+
+/* ====== COACH SECTION ====== */
+.coach-img-wrap {
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:28px;
+  background:var(--bg-alt);
+}
+.coach-img-wrap img { width:100%; height:auto; display:block; object-fit:contain; }
+.coach-label {
+  display:inline-block;
+  background:var(--accent-b);
+  color:#fff;
+  font-size:clamp(13px,3.5vw,15px);
+  font-weight:700;
+  padding:5px 14px;
+  border-radius:6px;
+  margin-bottom:16px;
+}
+.coach-stats {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  margin-top:28px;
+}
+.coach-stat {
+  background:#fff;
+  border:1.5px solid var(--card-border);
+  border-radius:10px;
+  padding:16px 10px;
+  text-align:center;
+  min-width:0;
+}
+.coach-stat strong {
+  display:block;
+  font-size:clamp(19px,5vw,22px);
+  font-family:'Noto Serif TC', serif;
+  color:var(--title-color);
+  margin-bottom:4px;
+}
+.coach-stat span {
+  font-size:clamp(13px,3.5vw,15px);
+  color:#777;
+}
+.coach-checks {
+  margin-top:24px;
+  list-style:none;
+}
+.coach-checks li {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:12px;
+  font-size:clamp(17px,4.5vw,19px);
+}
+.coach-checks li::before {
+  content:'✓';
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:26px; height:26px; min-width:26px;
+  background:var(--accent-b);
+  color:#fff;
+  border-radius:50%;
+  font-size:14px;
+  font-weight:700;
+  margin-top:4px;
+}
+
+/* ====== BRAND SPACE ====== */
+.space-img-wrap {
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:24px;
+  background:var(--bg-alt);
+  aspect-ratio:4/3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.space-img-wrap img { width:100%; height:100%; object-fit:cover; }
+
+/* ====== TESTIMONIALS ====== */
+.testi-card {
+  background:#fff;
+  border-radius:12px;
+  padding:28px 22px;
+  margin-bottom:20px;
+  border:1.5px solid var(--card-border);
+}
+.testi-profile {
+  font-size:clamp(15px,4vw,17px);
+  font-weight:700;
+  color:var(--accent-b);
+  margin-bottom:14px;
+}
+.testi-bubble {
+  background:var(--bg-alt);
+  border-radius:12px 12px 12px 4px;
+  padding:16px 18px;
+  margin-bottom:14px;
+  font-size:clamp(16px,4.2vw,18px);
+  line-height:1.8;
+  position:relative;
+}
+.testi-body {
+  font-size:clamp(16px,4.2vw,18px);
+  line-height:1.8;
+  margin-bottom:12px;
+}
+.testi-disclaimer {
+  font-size:clamp(12px,3.2vw,14px);
+  color:#999;
+}
+
+/* ====== FAQ ====== */
+.faq-item {
+  border-bottom:1px solid var(--card-border);
+  padding:20px 0;
+}
+.faq-q {
+  font-size:clamp(17px,4.5vw,19px);
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.faq-q::after {
+  content:'+';
+  font-size:24px;
+  font-weight:300;
+  color:var(--accent-a);
+  transition:transform 0.3s ease;
+  flex-shrink:0;
+}
+.faq-item.open .faq-q::after {
+  transform:rotate(45deg);
+}
+.faq-a {
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.4s ease, padding 0.3s ease;
+  font-size:clamp(16px,4.2vw,18px);
+  line-height:1.8;
+  color:#555;
+}
+.faq-item.open .faq-a {
+  max-height:300px;
+  padding-top:14px;
+}
+
+/* ====== SCARCITY ====== */
+.scarcity-box {
+  background:var(--tip-bg);
+  border:2px solid var(--accent-a);
+  border-radius:12px;
+  padding:24px 20px;
+  text-align:center;
+  margin-bottom:24px;
+}
+.scarcity-num {
+  font-family:'Noto Serif TC', serif;
+  font-size:clamp(32px,8vw,42px);
+  font-weight:900;
+  color:var(--accent-a);
+  line-height:1.2;
+}
+.scarcity-text {
+  font-size:clamp(15px,4vw,17px);
+  color:var(--tip-text);
+  margin-top:6px;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  background:var(--bg-dark-deep);
+  color:rgba(244,240,232,0.6);
+  padding:40px 0;
+  font-size:clamp(13px,3.5vw,15px);
+  line-height:1.7;
+}
+.footer-disclaimer {
+  border-top:1px solid rgba(255,255,255,0.1);
+  padding-top:20px;
+  margin-top:20px;
+}
+
+/* ====== STICKY BAR ====== */
+.sticky-bar {
+  position:fixed;
+  bottom:0; left:0; right:0;
+  display:flex;
+  gap:8px;
+  padding:12px 16px;
+  padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px));
+  background:rgba(26,46,26,0.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  z-index:9999;
+  transform:translateY(100%);
+  transition:transform 0.35s ease;
+}
+.sticky-bar.show { transform:translateY(0); }
+.sticky-bar a {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:68px;
+  border-radius:10px;
+  color:#fff;
+  padding:10px 8px;
+  min-width:0;
+}
+.sticky-bar .btn-line { background:var(--line-green); }
+.sticky-bar .btn-fb { background:var(--fb-blue); }
+.sticky-bar .sticky-main {
+  font-size:clamp(15px,4vw,17px);
+  font-weight:700;
+  line-height:1.3;
+}
+.sticky-bar .sticky-sub {
+  font-size:clamp(12px,3.2vw,13px);
+  opacity:0.9;
+  margin-top:2px;
+  line-height:1.3;
+  text-align:center;
+}
+.sticky-bar .sticky-keyword {
+  font-size:clamp(11px,2.8vw,12px);
+  opacity:0.72;
+  margin-top:2px;
+  line-height:1.3;
+}
+
+/* ====== BODY BOTTOM PADDING FOR STICKY ====== */
+body { padding-bottom:90px; }
+
+/* ====== RESPONSIVE TWEAKS ====== */
+@media (min-width:600px) {
+  .container { max-width:560px; }
+  .section { padding:72px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge reveal">免費 ● 只需 5 分鐘</div>
+    <h1 class="reveal" data-d="100">
+      減脂一直卡關？<br>
+      先找出原因<br>
+      後面的路才走得穩
+    </h1>
+    <p class="hero-sub reveal" data-d="200">
+      少吃、多動、斷食、代餐⋯你都試過了，一停就全部回來。問題可能不在你有沒有努力，是身體真正卡住的地方，你還沒找到。
+    </p>
+  </div>
+</section>
+
+<!-- ====== PAIN POINTS ====== -->
+<section class="section">
+  <div class="container">
+    <h2 class="reveal" style="margin-bottom:24px;">
+      你是不是也有<br>這種感覺？
+    </h2>
+    <div class="pain-item reveal" data-d="0">
+      少吃、斷食、代餐都試過了，一停下來就全部打回原形？
+    </div>
+    <div class="pain-item reveal" data-d="80">
+      早餐超商、午餐便當、晚上還有聚餐，根本不知道怎麼吃？
+    </div>
+    <div class="pain-item reveal" data-d="160">
+      下班到家整個人癱掉，叫你再去運動，根本不可能的事？
+    </div>
+    <div class="pain-item reveal" data-d="240">
+      看朋友身材變了好羨慕，輪到你，怎麼試都沒有反應？
+    </div>
+    <div class="pain-item reveal" data-d="320">
+      每次下定決心，兩週不到就放棄，然後開始怪自己？
+    </div>
+    <p class="reveal" data-d="400" style="margin-top:20px; color:#555; font-size:clamp(15px,4vw,17px);">
+      你的努力沒有白費。只是方向還沒對上你的身體，當然走不遠。找到了，就不一樣了。
+    </p>
+  </div>
+</section>
+
+<!-- ====== TEST VALUE ====== -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="reveal" style="margin-bottom:10px;">
+      我設計了一份 AI 問卷<br>
+      幫你看清楚<br>
+      身體到底卡在哪裡
+    </h2>
+    <p class="reveal" data-d="80" style="margin-bottom:28px; color:#555;">
+      5 分鐘，手機上就能完成。做完之後，我會親自一對一幫你解讀，告訴你目前的狀態，和接下來最適合你生活節奏的調整方向。
+    </p>
+
+    <div class="test-point reveal" data-d="100">
+      <div class="test-point-num">1</div>
+      <p><strong>你的身體卡在哪一關</strong><br>飲食、作息、壓力，還是某個你自己都沒察覺的習慣在默默拖住你？找到了，才知道從哪裡開始</p>
+    </div>
+    <div class="test-point reveal" data-d="180">
+      <div class="test-point-num">2</div>
+      <p><strong>過去的方法，為什麼走不下去</strong><br>你試過的方式不一定是錯的，只是不夠貼合你的身體狀況跟生活習慣，所以才撐不久</p>
+    </div>
+    <div class="test-point reveal" data-d="260">
+      <div class="test-point-num">3</div>
+      <p><strong>最適合你現在的調整方向</strong><br>三餐外食也可以、不需要進健身房也可以，從你現在的生活就能開始，不用等到「準備好」</p>
+    </div>
+
+    <div class="tip-box reveal" data-d="340">
+      <strong>完全免費，做完不推銷。</strong><br>
+      我只是想幫你把卡住的地方看清楚。後面要不要繼續，完全由你決定。
+    </div>
+  </div>
+</section>
+
+<!-- ====== MID CTA ====== -->
+<section class="section section-dark" style="padding:40px 0;">
+  <div class="container">
+    <p class="reveal" style="text-align:center; margin-bottom:18px; font-size:clamp(17px,4.5vw,19px); opacity:0.9;">
+      5 分鐘，先把你的身體卡在哪裡搞清楚
+    </p>
+    <div class="cta-row reveal" data-d="100">
+      <a href="https://line.me/R/ti/p/@572gyirr" target="_blank" rel="noopener" class="cta-btn cta-btn-line">
+        <span class="cta-main">💬 私訊 LINE</span>
+        <span class="cta-desc">5 分鐘找出卡住的原因</span>
+        <span class="cta-keyword">留言：能量減脂AI測驗</span>
+      </a>
+      <a href="https://m.me/couragewellnessinstitute/" target="_blank" rel="noopener" class="cta-btn cta-btn-fb">
+        <span class="cta-main">📘 私訊 FB</span>
+        <span class="cta-desc">5 分鐘找出卡住的原因</span>
+        <span class="cta-keyword">留言：能量減脂AI測驗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== COACH STORY ====== -->
+<section class="section">
+  <div class="container">
+    <div class="coach-img-wrap reveal">
+      <!-- 替換為崇銘的個人照片 -->
+      <img src="coach-photo.jpg" alt="崇銘教練" style="background:var(--bg-alt);">
+    </div>
+
+    <span class="coach-label reveal">健康管理教練</span>
+
+    <h2 class="reveal" data-d="80" style="margin-bottom:18px;">
+      Hi，我是崇銘
+    </h2>
+
+    <p class="reveal" data-d="120" style="margin-bottom:16px;">
+      我陪過很多人認真調整體態，他們都有一個共同點，每一個人都努力試過了，每一個人最後都說同一句話：
+    </p>
+    <p class="reveal" data-d="160" style="margin-bottom:16px; font-size:clamp(18px,5vw,21px); font-family:'Noto Serif TC',serif; color:var(--title-color); line-height:1.6;">
+      「我已經這麼努力了，為什麼身體就是不給我面子？」
+    </p>
+    <p class="reveal" data-d="200" style="margin-bottom:16px;">
+      我後來才慢慢搞清楚：這些人卡住，通常不是因為不夠努力。是因為他們一直在回答「要怎麼做」，但沒有人幫他們先搞清楚「身體到底卡在哪裡」。結果就是方法換了一個又一個，每次都是同樣的結局。
+    </p>
+    <p class="reveal" data-d="240" style="margin-bottom:16px;">
+      所以我這幾年做的事，就是先幫你把那個卡住的點找出來，再根據你真實的生活，三餐外食、常有聚餐、加班、沒時間運動，設計一條你真的走得通的路。
+    </p>
+    <p class="reveal" data-d="280" style="margin-bottom:24px;">
+      你不需要先把生活變完美，再開始調整。從現在的狀態出發就可以。
+    </p>
+
+    <ul class="coach-checks reveal" data-d="320">
+      <li>先把你身體真正卡住的地方找出來</li>
+      <li>根據你的外食習慣和作息設計方向</li>
+      <li>一對一陪你走，不是給你課表就消失</li>
+    </ul>
+
+    <div class="coach-stats reveal" data-d="400">
+      <div class="coach-stat">
+        <strong>1 對 1</strong>
+        <span>不是上團體課</span>
+      </div>
+      <div class="coach-stat">
+        <strong>AI 問卷</strong>
+        <span>5 分鐘看清卡點</span>
+      </div>
+      <div class="coach-stat">
+        <strong>陪你走</strong>
+        <span>不給課表就消失</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== BRAND SPACE ====== -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="reveal" style="margin-bottom:10px;">
+      一個讓你可以<br>好好說清楚的地方
+    </h2>
+    <p class="reveal" data-d="80" style="margin-bottom:24px; color:#555;">
+      第一次來的人，通常進門後就放鬆了。這裡沒有健身房的壓迫感，也不像診所，就是一個可以坐下來、把話慢慢說完的空間。
+    </p>
+
+    <div class="space-img-wrap reveal" data-d="120">
+      <!-- 替換為品牌空間照片 -->
+      <img src="space-photo.jpg" alt="可樂吉健康研究所 諮詢空間">
+    </div>
+
+    <p class="reveal" data-d="200" style="color:#555;">
+      坐下來、喝杯水，把你的狀況從頭說一遍，不用整理、不用準備，就這樣開始就好。很多人說，光是說出來，就已經覺得輕鬆一點了。
+    </p>
+  </div>
+</section>
+
+<!-- ====== TESTIMONIALS ====== -->
+<section class="section">
+  <div class="container">
+    <h2 class="reveal" style="margin-bottom:28px;">
+      他們以前也覺得<br>自己就是那種<br>「試什麼都沒用的人」
+    </h2>
+
+    <!-- 見證 1：小昀 -->
+    <div class="testi-card reveal" data-d="0">
+      <div class="testi-profile">小昀｜語言治療師｜31歲</div>
+      <div class="testi-bubble">
+        「吃了超多邪惡食物⋯我以為又完蛋了，結果整個人輕鬆到不敢相信！」
+      </div>
+      <p class="testi-body">
+        生了兩個小孩，公司聚餐多、完全沒時間備餐，體態一直是小昀最在意的事。跟著崇銘調整之後，她說最大的收穫是：「以前聚餐前都要緊張很久，現在我知道怎麼吃了，聚餐完整個人還是很輕鬆。」
+      </p>
+      <p class="testi-disclaimer">個人體驗，效果因人而異</p>
+    </div>
+
+    <!-- 見證 2：慧琴 -->
+    <div class="testi-card reveal" data-d="100">
+      <div class="testi-profile">慧琴｜清潔員｜30歲</div>
+      <div class="testi-bubble">
+        「朋友說：你最近做了什麼？整個人煥然一新！」
+      </div>
+      <p class="testi-body">
+        慧琴以前身體有一段特別辛苦的時期，沒辦法做太多運動，飲食也亂。後來跟著崇銘調整飲食之後，精神跟以前完全不同。讓她最印象深刻的是有一天教會朋友和家人一起問她：「你最近做了什麼改變？你整個人的氣色都不一樣了。」
+      </p>
+      <p class="testi-disclaimer">個人體驗，效果因人而異</p>
+    </div>
+
+    <!-- 見證 3：靖雯 -->
+    <div class="testi-card reveal" data-d="200">
+      <div class="testi-profile">靖雯｜櫃姐｜29歲</div>
+      <div class="testi-bubble">
+        「以前每次兩週就放棄，這次我真的有做到，而且沒有壓力」
+      </div>
+      <p class="testi-body">
+        代餐、飲食法，靖雯每一樣都試過，每一樣都撐不久。她說以前遇到的方式都讓她很有壓力，稍微沒做到就開始自責。跟著崇銘的感覺完全不同：「他讓我按照自己的步調，整個過程很自然，我才發現，原來這樣是可以持續下去的。」
+      </p>
+      <p class="testi-disclaimer">個人體驗，效果因人而異</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="reveal" style="margin-bottom:24px;">你可能會想問</h2>
+
+    <div class="faq-item reveal" data-d="0">
+      <div class="faq-q">問卷要做多久？</div>
+      <div class="faq-a">大概 5 分鐘，手機就能做。不用查資料，照你現在的感覺回答就好，比你想像的快很多。</div>
+    </div>
+    <div class="faq-item reveal" data-d="80">
+      <div class="faq-q">要收費嗎？</div>
+      <div class="faq-a">問卷免費，解讀也免費。我會一對一幫你看結果，告訴你目前卡在哪裡、接下來可以怎麼開始。整個過程不推銷。</div>
+    </div>
+    <div class="faq-item reveal" data-d="160">
+      <div class="faq-q">我很忙，有時間配合嗎？</div>
+      <div class="faq-a">問卷在手機上做，找個空檔 5 分鐘就完成。後續的溝通用 LINE 進行，時間彈性、配合你，不需要特別排時間或跑出來。</div>
+    </div>
+    <div class="faq-item reveal" data-d="240">
+      <div class="faq-q">我三餐都外食，這樣也有辦法調整嗎？</div>
+      <div class="faq-a">可以。我陪過的很多人都是外食族，便當、自助餐、超商都有對應的方向。不用自己備餐、不用特別改生活，從你現在的狀態就能開始。</div>
+    </div>
+    <div class="faq-item reveal" data-d="320">
+      <div class="faq-q">我以前試過很多方法都失敗了，這次有什麼不一樣？</div>
+      <div class="faq-a">之前的方法失敗，通常是因為方向還沒對上你的身體，所以才撐不下去。這次先把你卡住的地方找出來，方向對了，再走。先私訊來聊聊你的狀況。</div>
+    </div>
+    <div class="faq-item reveal" data-d="400">
+      <div class="faq-q">做完之後會一直被追著推銷嗎？</div>
+      <div class="faq-a">不會。看完結果之後，要不要進一步調整，完全是你自己的決定。我的工作是幫你把狀況看清楚，不是逼你做任何決定。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FINAL CTA ====== -->
+<section class="section section-dark-deep" style="padding-bottom:72px;">
+  <div class="container">
+    <h2 class="reveal" style="text-align:center; margin-bottom:28px;">
+      你已經卡夠久了<br>
+      給自己 5 分鐘<br>
+      先把原因搞清楚
+    </h2>
+
+    <div class="scarcity-box reveal" data-d="100">
+      <div class="scarcity-num">每週只有 3 個名額</div>
+      <div class="scarcity-text">一對一解讀需要完整時間，額滿就要等下一週</div>
+    </div>
+
+    <div class="cta-row reveal" data-d="200">
+      <a href="https://line.me/R/ti/p/@572gyirr" target="_blank" rel="noopener" class="cta-btn cta-btn-line">
+        <span class="cta-main">💬 私訊 LINE</span>
+        <span class="cta-desc">5 分鐘找出卡住的原因</span>
+        <span class="cta-keyword">留言：能量減脂AI測驗</span>
+      </a>
+      <a href="https://m.me/couragewellnessinstitute/" target="_blank" rel="noopener" class="cta-btn cta-btn-fb">
+        <span class="cta-main">📘 私訊 FB</span>
+        <span class="cta-desc">5 分鐘找出卡住的原因</span>
+        <span class="cta-keyword">留言：能量減脂AI測驗</span>
+      </a>
+    </div>
+
+    <p class="reveal small-note" data-d="300" style="text-align:center; margin-top:18px; color:rgba(244,240,232,0.5);">
+      私訊後，崇銘會親自傳送問卷連結給你
+    </p>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <p style="margin-bottom:8px;">
+      <strong style="color:var(--text-light);">可樂吉健康研究所 Courage Club</strong>
+    </p>
+    <p>健康管理教練｜崇銘</p>
+
+    <div class="footer-disclaimer">
+      <p>
+        【重要說明】本頁面所呈現之內容，包含客戶分享的個人體驗與生活感受，屬於個人主觀感受，個人體驗因人而異，不代表普遍效果。本服務不具有醫療效果，無法預防、診斷或治療任何疾病。本服務屬於健康習慣建立的引導與策略，不具醫療行為，不得取代醫師診療。若您有健康疑慮，請諮詢您的主治醫師。
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ====== STICKY BAR ====== -->
+<div class="sticky-bar" id="sticky-bar">
+  <a href="https://line.me/R/ti/p/@572gyirr" target="_blank" rel="noopener" class="btn-line">
+    <span class="sticky-main">💬 私訊 LINE</span>
+    <span class="sticky-sub">5 分鐘找出卡住的原因</span>
+    <span class="sticky-keyword">留言：能量減脂AI測驗</span>
+  </a>
+  <a href="https://m.me/couragewellnessinstitute/" target="_blank" rel="noopener" class="btn-fb">
+    <span class="sticky-main">📘 私訊 FB</span>
+    <span class="sticky-sub">5 分鐘找出卡住的原因</span>
+    <span class="sticky-keyword">留言：能量減脂AI測驗</span>
+  </a>
+</div>
+
+<!-- ====== SCRIPTS ====== -->
+<script>
+/* Scroll Reveal */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    setTimeout(() => e.target.classList.add('vis'), parseInt(e.target.dataset.d || 0));
+    io.unobserve(e.target);
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* Sticky Bar — triggers at 15% */
+const stickyBar = document.getElementById('sticky-bar');
+let stickyShown = false;
+window.addEventListener('scroll', () => {
+  if (stickyShown) return;
+  const scrolled = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+  if (scrolled > 0.15) {
+    stickyBar.classList.add('show');
+    stickyShown = true;
+  }
+}, { passive: true });
+
+/* FAQ Accordion */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+
+</body>
+</html>
