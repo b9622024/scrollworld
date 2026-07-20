@@ -1,7 +1,7 @@
 "use strict";
 
 document.documentElement.classList.add("js");
-document.documentElement.dataset.build = "scroll-world-scenes-01-10-v2";
+document.documentElement.dataset.build = "scroll-world-scenes-01-10-v3";
 
 const SCROLL_WORLD_ASSETS = {
   images: {
@@ -64,9 +64,9 @@ const entryTimeline = {
   scene4To5Video: [0.880, 0.930],
   scene5Settle: [0.930, 0.960],
   scene5CopyIn: [0.930, 0.970],
-  scene5CopyOut: [0.960, 0.980],
+  scene5CopyOut: [0.985, 1.000],
   scene5To6: [0.930, 1.000],
-  scene6CopyIn: [0.980, 1.000]
+  scene6CopyIn: [0.965, 1.000]
 };
 
 const scene34Config = {
@@ -117,8 +117,8 @@ const scene678Timeline = {
   virtualScene7ZoomMid: [0.24, 0.58],
   virtualScene7ZoomWide: [0.58, 0.80],
   // Keep the report-reading copy on screen long enough to be understood.
-  virtualScene7CopyIn: [0.08, 0.16],
-  virtualScene7CopyOut: [0.32, 0.50],
+  virtualScene7CopyIn: [0.18, 0.28],
+  virtualScene7CopyOut: [0.45, 0.62],
   scene8Settle: [0.80, 0.90],
   scene8CopyIn: [0.90, 1.00]
 };
@@ -286,7 +286,8 @@ function getNodes() {
     copy7: document.querySelector(".sw-copy--scene7"),
     copy8: document.querySelector(".sw-copy--scene8"),
     copy9: document.querySelector(".sw-copy--scene9"),
-    copy10: document.querySelector(".sw-copy--scene10")
+    copy10: document.querySelector(".sw-copy--scene10"),
+    ctaDock: document.querySelector("#sw-cta-dock")
   };
 }
 
@@ -577,7 +578,7 @@ function setupNativeScrollWorld(mediaReady) {
       setMediaLayer(n.scene8, 1, reportTailTransform, "none", scene678Config.reportOrigin);
     }
 
-    const scene6TailCopy = 1 - rangeProgress(scene678Progress, [0.02, 0.14]);
+    const scene6TailCopy = 1 - rangeProgress(scene678Progress, [0.02, 0.22]);
     const scene7Copy = rangeProgress(scene678Progress, scene678Timeline.virtualScene7CopyIn) * (1 - rangeProgress(scene678Progress, scene678Timeline.virtualScene7CopyOut));
     const scene8Copy = rangeProgress(scene678Progress, scene678Timeline.scene8CopyIn) * (1 - rangeProgress(tailProgress, [tailTimeline.scene8To9[0], tailTimeline.scene8To9[0] + .06]));
     const handMaskIn = rangeProgress(scene678Progress, [0.04, 0.10]);
@@ -646,6 +647,9 @@ function setupNativeScrollWorld(mediaReady) {
     n.copy9.style.visibility = scene9Copy > .001 ? "visible" : "hidden";
     n.copy10.style.opacity = scene10Copy.toFixed(3);
     n.copy10.style.visibility = scene10Copy > .001 ? "visible" : "hidden";
+    const dockShouldShow = progress > .045 || tailProgress > 0;
+    const dockConflictsWithScene10 = scene10Copy > .18;
+    n.ctaDock.classList.toggle("is-visible", dockShouldShow && !dockConflictsWithScene10);
 
   };
   const requestRender = () => { if (!frame) frame = requestAnimationFrame(render); };
@@ -686,6 +690,7 @@ function revealStaticFallback() {
     element.style.visibility = "";
     element.style.transform = "";
   });
+  document.querySelector("#sw-cta-dock")?.classList.add("is-visible");
 }
 
 if (document.readyState === "loading") {
