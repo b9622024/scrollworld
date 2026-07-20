@@ -56,16 +56,17 @@ const entryTimeline = {
   scene3Settle: [0.634, 0.670],
   scene3CopyIn: [0.650, 0.700],
   scene3CopyOut: [0.690, 0.730],
-  scene3To4Video: [0.700, 0.820],
-  scene4Settle: [0.820, 0.840],
-  scene4CopyIn: [0.830, 0.855],
-  scene4CopyOut: [0.840, 0.855],
-  scene4To5Video: [0.840, 0.910],
-  scene5Settle: [0.910, 0.930],
-  scene5CopyIn: [0.920, 0.950],
-  scene5CopyOut: [0.950, 0.965],
-  scene5To6: [0.910, 1.000],
-  scene6CopyIn: [0.975, 1.000]
+  scene3To4Video: [0.700, 0.800],
+  scene4Settle: [0.800, 0.840],
+  // Scene 4 gets a real reading pause before the next camera movement.
+  scene4CopyIn: [0.810, 0.880],
+  scene4CopyOut: [0.900, 0.940],
+  scene4To5Video: [0.880, 0.930],
+  scene5Settle: [0.930, 0.960],
+  scene5CopyIn: [0.930, 0.970],
+  scene5CopyOut: [0.960, 0.980],
+  scene5To6: [0.930, 1.000],
+  scene6CopyIn: [0.980, 1.000]
 };
 
 const scene34Config = {
@@ -111,14 +112,15 @@ const scene56Config = {
 // read, then Scene 8 opens the same tabletop to the coach.
 const legacyEntryHeightVh = 720;
 const scene678Timeline = {
-  scene6Hold: [0.00, 0.04],
-  scene6ToVirtual7: [0.04, 0.18],
-  virtualScene7ZoomMid: [0.18, 0.55],
-  virtualScene7ZoomWide: [0.55, 0.78],
-  virtualScene7CopyIn: [0.02, 0.08],
-  virtualScene7CopyOut: [0.20, 0.35],
-  scene8Settle: [0.78, 0.88],
-  scene8CopyIn: [0.88, 1.00]
+  scene6Hold: [0.00, 0.06],
+  scene6ToVirtual7: [0.06, 0.24],
+  virtualScene7ZoomMid: [0.24, 0.58],
+  virtualScene7ZoomWide: [0.58, 0.80],
+  // Keep the report-reading copy on screen long enough to be understood.
+  virtualScene7CopyIn: [0.08, 0.16],
+  virtualScene7CopyOut: [0.32, 0.50],
+  scene8Settle: [0.80, 0.90],
+  scene8CopyIn: [0.90, 1.00]
 };
 const scene678Config = {
   // Scene 8's report sits slightly lower than Scene 6's. The small upward
