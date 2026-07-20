@@ -63,8 +63,8 @@ const entryTimeline = {
   scene4CopyOut: [0.900, 0.940],
   scene4To5Video: [0.880, 0.930],
   scene5Settle: [0.930, 0.960],
-  scene5CopyIn: [0.930, 0.965],
-  scene5CopyOut: [0.970, 0.995],
+  scene5CopyIn: [0.930, 0.950],
+  scene5CopyOut: [0.985, 0.995],
   scene5To6: [0.930, 1.000],
   scene6CopyIn: [0.995, 1.000]
 };
