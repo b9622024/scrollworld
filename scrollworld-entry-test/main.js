@@ -63,10 +63,10 @@ const entryTimeline = {
   scene4CopyOut: [0.900, 0.940],
   scene4To5Video: [0.880, 0.930],
   scene5Settle: [0.930, 0.960],
-  scene5CopyIn: [0.930, 0.970],
-  scene5CopyOut: [0.985, 1.000],
+  scene5CopyIn: [0.930, 0.965],
+  scene5CopyOut: [0.970, 0.995],
   scene5To6: [0.930, 1.000],
-  scene6CopyIn: [0.965, 1.000]
+  scene6CopyIn: [0.995, 1.000]
 };
 
 const scene34Config = {
@@ -117,8 +117,8 @@ const scene678Timeline = {
   virtualScene7ZoomMid: [0.24, 0.58],
   virtualScene7ZoomWide: [0.58, 0.80],
   // Keep the report-reading copy on screen long enough to be understood.
-  virtualScene7CopyIn: [0.18, 0.28],
-  virtualScene7CopyOut: [0.45, 0.62],
+  virtualScene7CopyIn: [0.46, 0.56],
+  virtualScene7CopyOut: [0.72, 0.84],
   scene8Settle: [0.80, 0.90],
   scene8CopyIn: [0.90, 1.00]
 };
@@ -578,7 +578,7 @@ function setupNativeScrollWorld(mediaReady) {
       setMediaLayer(n.scene8, 1, reportTailTransform, "none", scene678Config.reportOrigin);
     }
 
-    const scene6TailCopy = 1 - rangeProgress(scene678Progress, [0.02, 0.22]);
+    const scene6TailCopy = 1 - rangeProgress(scene678Progress, [0.18, 0.45]);
     const scene7Copy = rangeProgress(scene678Progress, scene678Timeline.virtualScene7CopyIn) * (1 - rangeProgress(scene678Progress, scene678Timeline.virtualScene7CopyOut));
     const scene8Copy = rangeProgress(scene678Progress, scene678Timeline.scene8CopyIn) * (1 - rangeProgress(tailProgress, [tailTimeline.scene8To9[0], tailTimeline.scene8To9[0] + .06]));
     const handMaskIn = rangeProgress(scene678Progress, [0.04, 0.10]);
