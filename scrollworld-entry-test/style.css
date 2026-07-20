@@ -120,7 +120,7 @@ body { font-family: "Noto Sans TC", system-ui, sans-serif; overflow-x: hidden; }
   pointer-events: none;
   text-shadow: 0 2px 20px rgba(0, 0, 0, .45);
 }
-.sw-copy--scene2, .sw-copy--scene3, .sw-copy--scene4, .sw-copy--scene5, .sw-copy--scene6, .sw-copy--scene7, .sw-copy--scene8 { opacity: 0; visibility: hidden; }
+.sw-copy--scene2, .sw-copy--scene3, .sw-copy--scene4, .sw-copy--scene5, .sw-copy--scene6, .sw-copy--scene7, .sw-copy--scene8, .sw-copy--scene9, .sw-copy--scene10 { opacity: 0; visibility: hidden; }
 .sw-eyebrow { display: block; margin-bottom: 12px; color: #f3c98e; font-size: .72rem; font-weight: 700; letter-spacing: .15em; }
 .sw-copy h1, .sw-copy h2 { max-width: 15ch; margin: 0; color: #fffaf1; font: 600 clamp(2rem, 9vw, 4.5rem)/1.2 "Noto Serif TC", Georgia, serif; }
 .sw-copy p { max-width: 30em; margin: 14px 0 0; color: rgba(255, 250, 241, .96); font-size: 1rem; line-height: 1.8; }

@@ -1,7 +1,7 @@
 "use strict";
 
 document.documentElement.classList.add("js");
-document.documentElement.dataset.build = "scroll-world-scenes-01-10-v1";
+document.documentElement.dataset.build = "scroll-world-scenes-01-10-v2";
 
 const SCROLL_WORLD_ASSETS = {
   images: {
@@ -405,7 +405,7 @@ function setupNativeScrollWorld(mediaReady) {
     if (!video || !ready || video.dataset.failed === "true" || !Number.isFinite(video.duration)) return;
     const target = video.duration * mix(range[0], range[1], progress);
     const seekThreshold = scene45Config.scrubThreshold;
-    const state = seekState.get(video) || { target: 0, raf: 0, active: false, lastSeekAt: 0 };
+    const state = seekState.get(video) || { target: 0, raf: 0, active: false, lastSeekAt: 0, forceSeek: true };
     const display = getDisplayState(video);
     seekState.set(video, state);
     if (!active) {
@@ -415,24 +415,35 @@ function setupNativeScrollWorld(mediaReady) {
       if (state.raf) cancelAnimationFrame(state.raf);
       state.raf = 0;
       display.active = false;
-      display.frameReady = false;
+      // Keep the decoded frame cached. Clearing it here makes a scene
+      // disappear when the user reverses back into it before WebKit has
+      // delivered another requestVideoFrameCallback.
+      display.frameReady = video.readyState >= 2;
       display.waiting = false;
+      state.forceSeek = true;
       return;
     }
+    const wasInactive = !state.active;
     state.active = true;
     state.target = target;
     if (!display.active) {
       display.active = true;
-      display.waiting = true;
-      armVideoFrame(video, display, requestRender);
+      display.frameReady = video.readyState >= 2;
+      display.waiting = !display.frameReady;
+      if (!display.frameReady) armVideoFrame(video, display, requestRender);
+    }
+    if (wasInactive) {
+      state.forceSeek = true;
+      state.lastSeekAt = 0;
     }
     if (state.raf) return;
     const seekLatestFrame = (now) => {
       state.raf = 0;
       if (!state.active) return;
       const difference = Math.abs(video.currentTime - state.target);
-      if (difference > seekThreshold && now - state.lastSeekAt >= 28) {
+      if ((state.forceSeek || difference > seekThreshold) && now - state.lastSeekAt >= 28) {
         state.lastSeekAt = now;
+        state.forceSeek = false;
         video.currentTime = state.target;
       }
       if (Math.abs(video.currentTime - state.target) > seekThreshold) {
@@ -612,7 +623,6 @@ function setupNativeScrollWorld(mediaReady) {
     if (tailProgress >= tailTimeline.scene9To10[0]) {
       setLayer(n.scene9, scene9Exit, 1 + (scene9WarmPush * (compact ? .012 : .02)));
     }
-    setMediaLayer(n.scene10, scene10Reveal, scene10Transform, `circle(${mix(0, 100, scene10Reveal)}% at 78% 16%)`);
     if (n.warmMask) {
       n.warmMask.style.opacity = warmOpacity.toFixed(3);
       n.warmMask.style.visibility = warmOpacity > .001 ? "visible" : "hidden";
@@ -623,8 +633,9 @@ function setupNativeScrollWorld(mediaReady) {
     const ambientProgress = rangeProgress(scene910Progress, [.72, 1]);
     scrub(videos[5], ambientAvailable, ambientProgress, VIDEO_SCRUB_RANGE.scene10Ambient, scene910Progress >= .72);
     const ambientOpacity = ambientAvailable && ambientDisplay.frameReady ? rangeProgress(scene910Progress, [.76, .82]) : 0;
+    const staticScene10Opacity = scene10Reveal * (1 - ambientOpacity);
+    setMediaLayer(n.scene10, staticScene10Opacity, scene10Transform, `circle(${mix(0, 100, scene10Reveal)}% at 78% 16%)`);
     setLayer(n.scene10Ambient, ambientOpacity, 1);
-    if (n.scene10) n.scene10.style.opacity = (scene10Reveal * (1 - ambientOpacity)).toFixed(3);
     const scene9Copy = rangeProgress(tailProgress, [.60, .66]) * (1 - rangeProgress(tailProgress, tailTimeline.scene9To10));
     const scene10Copy = rangeProgress(scene910Progress, [.86, 1]);
     n.copy8.style.opacity = Math.min(Number(n.copy8.style.opacity), scene8Copy).toFixed(3);
